@@ -1,3 +1,4 @@
-db.sqlite3
-projectone
-media
+./db.sqlite3
+./projectone
+./media
+./static
