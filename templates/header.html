@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="/static/index.css">
+
+<header>
+    <nav>
+        <a class="logoa" href="/home" ><div class="logo">College Web</div></a>
+        <ul class="nav-links">
+            <li class="{% if request.path == '/home' %} active {% endif %}" ><a href="/home">Home</a></li>
+            <li class="{% if request.path == '/course' %} active {% endif %}"><a href="/course">Courses</a></li>
+            {% comment %} <li class="{% if request.path == '/student' %} active {% endif %}"><a href="/student">Students</a></li> {% endcomment %}
+            {% comment %} <li class="{% if request.path == '/teacher' %} active {% endif %}"><a href="/teacher">Teachers</a></li> {% endcomment %}
+            <li class="{% if request.path == '/contact' %} active {% endif %}"><a href="/contact">Contact</a></li>
+        </ul>
+        <div class="auth">
+            <a href="/bothlogin" class="login-btn">Login</a>
+        </div>
+    </nav>
+</header>

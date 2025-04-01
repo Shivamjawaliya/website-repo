@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Form Container Styles */
+form {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Input Styles */
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background-color: #e9ecef;
+    color: #495057;
+    font-size: 1em;
+    cursor: not-allowed;
+}
+
+input[readonly] {
+    background-color: #e9ecef;  /* Light grey background to indicate readonly state */
+    color: #495057;  /* Slightly darker text for better contrast */
+}
+
+input[type="text"]:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Label Styles */
+label {
+    font-size: 1.1em;
+    color: #003366;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Button Styles */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #003366;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #001f4d;
+}
+
+/* Spacing and Layout */
+h1 {
+    text-align: center;
+    color: #003366;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+form p {
+    text-align: center;
+    font-size: 1.1em;
+    color: #555;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #003366;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 40px;
+}
+
+footer p {
+    font-size: 1em;
+}
+
+</style>
+
+<form action="/requestsubmite" method="POST">
+    {% csrf_token %}
+    <label for="student_id">Student Username:</label>
+    <input type="text" id="student_username" name="student_username" value="{{ username }}" readonly><br><br>
+
+    <label for="course_id">Course Code:</label>
+    <input type="text" id="course_code" name="course_code" value="{{ newcourse.course_code }}" readonly><br><br>
+
+    <label for="course_name">Course Name:</label>
+    <input type="text" id="course_name" name="course_name" value="{{newcourse.course_name}}" readonly><br><br>
+
+    <button type="submit" herf="/requestsubmite">Send Request</button>
+</form>
+
+{% endblock content %}

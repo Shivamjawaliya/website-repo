@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+ <main>
+    <section class="login">
+        <h1>Student Login</h1>
+        <p>{{output}}</p> 
+
+        
+        <form class="login-form"  method= "POST">
+            {% csrf_token %}
+            <form action="/staffhome" method="post">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="studentemail" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="studentpassword" required>
+                </div>
+                <button type="submit" herf="/studentprofile" class="form-control btn">Login</button>
+            </form>
+            <p>Don't have an account? <a href="/student_register">Register here</a></p>
+            <p><a href="forgot-password.html">Forgot password?</a></p>
+        </form>
+    </section>
+</main> 
+
+
+
+
+{% endblock content %}
+

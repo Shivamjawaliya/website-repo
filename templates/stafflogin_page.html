@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+ <main>
+    <section class="login">
+        <h1>Staff Login</h1>
+        <h5>{{output}}</h5>
+
+
+        
+        <form class="login-form" method= "POST">
+            {% csrf_token %}
+            <form action="login.php" method="post">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="staffemail" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="staffpassword" required>
+                </div>
+                <button type="submit" class="form-control btn">Login</button>
+            </form>
+            <p><a href="forgot-password.html">Forgot password?</a></p>
+        </form>
+    </section>
+</main> 
+
+
+
+
+{% endblock content %}
+

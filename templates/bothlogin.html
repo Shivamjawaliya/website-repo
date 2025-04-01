@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    main {
+        max-width: 1200px;
+        height:70%;%
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .login-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 13%;
+    }
+    
+    .login-option {
+        background-color: #003366;
+        color: white;
+        font-size: 40px;
+        border: none;
+        padding: 20px;
+        width: 350px;
+        text-align: center;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .login-option:hover {
+        background-color: #001f4d;
+    }
+    
+    .login-option img {
+        width: 90px;
+        height: auto;
+        margin-bottom: 36px;
+    }
+    
+</style>
+
+<main>
+    <section class="login-container">
+        <button class="login-option" onclick="window.location.href='/stafflogin_page'">
+            <img src="https://em-content.zobj.net/source/apple/129/male-teacher-type-4_1f468-1f3fd-200d-1f3eb.png" alt="Staff Icon">
+            <span>Staff Login</span>
+        </button>
+        <button class="login-option" onclick="window.location.href='/studentlogin_page'">
+            <img src="https://em-content.zobj.net/source/apple/391/man-student-medium-skin-tone_1f468-1f3fd-200d-1f393.png" alt="Student Icon">
+            <span>Student Login</span>
+        </button>
+    </section>
+</main>
+
+{% endblock content %}

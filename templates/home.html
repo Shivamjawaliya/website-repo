@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    /* Marquee styling for news ticker */
+marquee {
+    background-color: #f0f8ff;  /* Light blue background */
+    padding: 12px 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin: 15px 0;
+}
+
+/* Style for news title links */
+.marque_link_title{
+    color: #4682b4;  /* Steel blue for titles */
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* Style for news description links */
+.marque_link_desc{
+    color: #555;  /* Darker color for descriptions */
+    text-decoration: none;
+}
+
+/* Hover effects */
+marquee a:hover {
+    color: #1e90ff;  /* Brighter blue on hover */
+}
+
+/* Optional: Add a highlight effect to the currently visible news */
+@keyframes highlight {
+    0%, 100% { background-color: transparent; }
+    50% { background-color: rgba(70, 130, 180, 0.1); }  /* Very light blue highlight */
+}
+
+marquee:hover {
+    animation-play-state: paused;  /* Pause the scrolling on hover */
+}
+
+/* For better mobile viewing */
+@media (max-width: 768px) {
+    marquee {
+        padding: 10px;
+    }
+}
+</style>
+<marquee onmouseover="stop()" onmouseout = "start()">
+    {% comment %} {% for n in News_data %}
+    <a href="newsdetail/{{n.news_slug}}" class="marque_link_title">{{n.news_titlle}}</a>&nbsp &nbsp &nbsp &nbsp &nbsp {% endcomment %}
+    {% comment %} {% endfor %} {% endcomment %}
+</marquee>
+<main>
+    <section class="hero">
+        <h1>Welcome to Our College</h1>
+        <p>Your journey to excellence starts here. Explore courses, connect with teachers, and advance your education.</p>
+        <a href="" class="cta-btn">Explore Courses</a>
+    </section>
+
+    <section class="about">
+        <h2>About Our College</h2>
+        <p>Our college is dedicated to providing high-quality education with experienced faculty and state-of-the-art facilities. We offer a variety of courses to help students achieve their academic and career goals.</p>
+    </section>
+
+    <section class="departments">
+        <h2>Departments</h2>
+        <ul>
+            <li>Computer Science</li>
+            <li>Business Administration</li>
+            <li>Mechanical Engineering</li>
+            <li>Biotechnology</li>
+            <li>Humanities & Social Sciences</li>
+        </ul>
+    </section>
+
+    <section class="events">
+        <h2>Upcoming Events</h2>
+        <p>Stay tuned for our latest events, workshops, and seminars to enhance your learning experience.</p>
+    </section>
+</main>
+{% endblock content %}
