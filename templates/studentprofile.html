@@ -5,7 +5,7 @@
 <style>
     /* Student Profile Styles */
 .profile-container {
-    max-width: 1000px;
+    max-width: 90%;
     margin: 30px auto;
     background: white;
     border-radius: 10px;
@@ -280,6 +280,7 @@
 }
 
 /* Settings Form */
+
 .settings-form {
     max-width: 600px;
 }
@@ -350,6 +351,64 @@ h2{
     text-decoration:none;
     color:black;
 }
+/* PDF Upload Styles */
+#id_file_pdf {
+    display: block; /* Make the input a block element */
+    margin: 20px auto; /* Center the input with margin */
+    margin-top: 20px;
+    padding: 10px; /* Add some padding */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1em; /* Font size */
+    color: #003366; /* Text color */
+    background-color: #f9f9f9; /* Light background */
+    transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+#id_file_pdf:focus {
+    border-color: #0041a2; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}
+
+/* Label Styles */
+label[for="id_file_pdf"] {
+    display: block; /* Make the label a block element */
+    margin-bottom: 5px; /* Space between label and input */
+    font-weight: bold; /* Bold text */
+    color: #003366; /* Label text color */
+}
+.assing_container{
+    margin-top: 20px;
+}
+/* Submit Button Styles */
+button[type="submit"] {
+    display: inline-block; /* Make it an inline-block element */
+    background: #003366; /* Background color */
+    color: white; /* Text color */
+    padding: 10px 20px; /* Padding for top/bottom and left/right */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1em; /* Font size */
+    font-weight: bold; /* Bold text */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background 0.3s; /* Smooth transition for background color */
+}
+
+button[type="submit"]:hover {
+    background: #001f4d; /* Darker background on hover */
+}
+
+button[type="submit"]:focus {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 5px rgba(0, 65, 162, 0.5); /* Add a shadow effect on focus */
+}
+#btn_smt_ass{
+    margin-top: 20px;
+}
+#sub_Ass_hed{
+    margin-top: 20px;
+}
+
 </style>
 {% comment %} <h1>{{username}}</h1>
 <h1>{{student_name}}</h1> {% endcomment %}
@@ -369,7 +428,7 @@ h2{
                 <h1>{{ student_details.student_name }}</h1>
                 <p class="student-email">{{ student_details.student_email }}</p>
                 <p class="student-id">{{ student_department |default:"N/A" }}</p>
-                <input name"username" class="username" value="{{ username }}">
+                <input name ="username" class="username" value="{{ username }}">
             </div>
         </div>
 
@@ -406,15 +465,15 @@ h2{
             </div>
             <div class="quick-stats">
                 <div class="stat-card">
-                    <span class="stat-number">{{ Courses_count |default:"0"}}</span>
+                    <span class="stat-number">{{ course_count |default:"0"}}</span>
                     <span class="stat-label">Courses</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">{{ assignments_count|default:"0" }}</span>
+                    <span class="stat-number">{{ submit_assingment_count |default:"0" }} / {{ total_assingment_count |default:"0" }}  </span>
                     <span class="stat-label">Assignments</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">{{ average_grade|default:"0.0" }}</span>
+                    <span class="stat-number">{{ avgrade|default:"0.0" }}</span>
                     <span class="stat-label">Avg. Grade</span>
                 </div>
             </div>
@@ -493,39 +552,62 @@ h2{
                 <div class="assignments-list">
                     {% for assignment in assignmnet %}
                     <div class="assignment-card {% if assignment.is_due %}due{% endif %}">
-                        <div class="assignment-header">
-                            <h3>{{ assignment.course_name }}</h3>
-                            <span class="due-date {% if assignment.is_due %}overdue{% endif %}">
-                                Due: 23/2/2023
-                            </span>
-                        </div>
-                        <p class="assignment-course">{{ assignment.course_name }}</p>
-                        <p class="assignment-desc">{{ assignment.decs }}</p>
-                        <div class="assignment-footer">
-                            <span class="status">Status: {{ assignment.status }}</span>
-                            <a href="{{ assignment.url }}" class="btn">View Assignment</a>
-                        </div>
+                        <form action="/submitassingment" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                            <div class="assignment-header">
+                                <h3>{{ assignment.course_name }}</h3>
+                                <span class="due-date {% if assignment.is_due %}overdue{% endif %}">
+                                    Due: 23/2/2023
+                                </span>
+                            </div>
+                            <input type="text"  class ="username" value="{{ assignment.course_name | default:'ECE' }}" name="assignment_course_name" readonly>
+                            <input type="text" class ="username" value="{{ student_details.student_email }}" name="assignment_username" readonly>
+                            <input type="text" class ="username" value="{{ assignment.title }}" name="assignment_title" readonly>
+                            <p class="assignment-desc">{{ assignment.title }}</p>
+                            <p class="assignment-desc">{{ assignment.desc }}</p>
+                            <div class="assignment-footer">
+                                <a href="{{ assignment.url }}" class="btn">View Assignment</a>
+                            </div>
+                            <div class="assing_container">
+                                <label for="id_file_pdf">Upload PDF:</label>
+                                <input type="file" name="file_pdf" id="id_file_pdf" accept="application/pdf" required>
+                            </div>
+                            <button type="submit" name="submit">Submit</button>
+                        </form>
                     </div>
+                    
                     {% endfor %}
                 </div>
             {% endif %}
             {% if new_course_assignments %}
+            
                 <div class="assignments-list">
                     {% for assignment in new_course_assignments %}
                     </br>
                     <div class="assignment-card {% if assignment.is_due %}due{% endif %}">
-                        <div class="assignment-header">
-                            <h3>{{ assignment.course_name }}</h3>
-                            <span class="due-date {% if assignment.is_due %}overdue{% endif %}">
-                                Due: 23/2/2023
-                            </span>
-                        </div>
-                        <p class="assignment-course">{{ assignment.course_name }}</p>
-                        <p class="assignment-desc">{{ assignment.decs }}</p>
-                        <div class="assignment-footer">
-                            <span class="status">Status: {{ assignment.status }}</span>
-                            <a href="{% url 'view_assignment' assignment.id %}" class="btn">View Assignment</a>
-                        </div>
+                        <form action="/submitassingment" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                            <div class="assignment-header">
+                                <h3>{{ assignment.course_name }}</h3>
+                                <span class="due-date {% if assignment.is_due %}overdue{% endif %}">
+                                    Due: 23/2/2024
+                                </span>
+                            </div>
+                            <input type="text"  class ="username" value="{{ assignment.course_name | default:'ECE' }}" name="assignment_course_name" readonly>
+                            <input type="text" class ="username" value="{{ student_details.student_email }}" name="assignment_username" readonly>
+                            <input type="text" class ="username" value="{{ assignment.title }}" name="assignment_title" readonly>
+                            <p class="assignment-desc">{{ assignment.title }}</p>
+                            <p class="assignment-desc">{{ assignment.desc }}</p>
+                            <div class="assignment-footer">
+                                <a href="/media/assignments/Document_13-8-2.pdf" class="btn">View Assignment</a>
+                            </div>
+                            <div class="assing_container">
+                                <label for="id_file_pdf">Upload PDF:</label>
+                                <input type="file" name="file_pdf" id="id_file_pdf" accept="application/pdf" required>
+                            </div>
+                            <br>
+                            <button type="submit" name="submit">Submit</button>
+                        </form>
                     </div>
                     {% endfor %}
                 </div>
@@ -534,11 +616,37 @@ h2{
                     <p>You don't have any assignments yet.</p>
                 </div> {% endcomment %}
             {% endif %}
+
+            {% if submitassingment %}
+                <div class="assignments-list">
+               <br>
+                <h2>Subbmitted Assignments</h2>
+                    
+                    {% for assignment in submitassingment %}
+                    <div class="assignment-card {% if assignment.is_due %}due{% endif %}">
+                            <div class="assignment-header">
+                                <h3>{{ assignment.course_name }}</h3>
+                                <span class="due-date {% if assignment.is_due %}overdue{% endif %}">
+                                    Due: 23/2/2023
+                                </span>
+                            </div>
+                            <p class="assignment-desc">{{ assignment.title }}</p>
+                            <p class="assignment-desc">{{ assignment.desc }}</p>
+                            <div class="assignment-footer">
+                                <a href="" class="btn">View Assignment</a>
+                            </div>
+                            <button id="btn_smt_ass" type="submit" name="submit">Submitted</button>
+
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+                </div>
         </div>
 
         <div id="settings" class="tab-content">
-            <h2>Profile Settings</h2>
-            <form class="settings-form">
+            <h2 id="sub_Ass_hed">Profile Settings</h2>
+            <!-- <form class="settings-form">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="update-name">Full Name</label>
@@ -570,7 +678,7 @@ h2{
                     <input type="password" id="confirm-password" name="confirm_password">
                 </div>
 
-            </form>
+            </form> -->
         </div>
     </div>
 </main>
